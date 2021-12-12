@@ -31,7 +31,7 @@ $env:HOUDINI_PATH = "$HOUDINI_PY_SCRIPTS;&"
 $env:BLENDER_VERSION = (SearchForFirstChildDirectory 'C:\Program Files\Blender Foundation' 'Blender' $true).Split(' ')[1]
 $env:BLENDER_BIN = 'C:\Program Files\Blender Foundation' + "\Blender $env:BLENDER_VERSION"
 $env:BLENDER_EXE = Join-Path -Path $env:BLENDER_BIN -ChildPath 'blender.exe'
-$env:BLENDER_USER_SCRIPTS = Join-Path -Path $BLENDER_PY_SCRIPTS -ChildPath 'blender'
+#$env:BLENDER_USER_SCRIPTS = Join-Path -Path $BLENDER_PY_SCRIPTS -ChildPath 'blender'
 
 # Setup Pico-8 Env Vars
 # TODO: Find this as opposed to abs
