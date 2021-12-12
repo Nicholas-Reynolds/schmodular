@@ -1,0 +1,1 @@
+. "$PSScriptRoot\SchmodVars.ps1"
