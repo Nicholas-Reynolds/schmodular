@@ -1,0 +1,3 @@
+[submodule "Blender/Python/blender/addons/schmod_blender_bindings"]
+	path = Blender/Python/blender/addons/schmod_blender_bindings
+	url = https://github.com/Nicholas-Reynolds/schmod_blender_bindings.git
