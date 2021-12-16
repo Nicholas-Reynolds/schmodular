@@ -1,8 +1,13 @@
 bl_info = {
-    "name": "Schmod Blender Command Client",
+    "name": "Schmod Command Client",
+    "description": "Python Socket Server for communicating with the Schmod Command Server",
+    "author": "Nicholas Reynolds",
+    "version": (1, 0),
     "blender": (2, 80, 0),
-    "category": "Object",
+    "category": "Schmod",
 }
+
+import bpy
 
 def register():
     print("Hello World")

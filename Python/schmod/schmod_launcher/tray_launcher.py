@@ -1,10 +1,11 @@
+from pathlib import Path
 import sys
 import os
 import subprocess
 
 import unreal.application
 import houdini.application
-import blender.application
+import blender.utils.application
 
 from schmod.schmod_command_server import command_server_ui
 
@@ -46,7 +47,7 @@ class TrayLauncher(QtWidgets.QSystemTrayIcon):
     def initialize_class_variables(self):
         self.unreal_recent_projects = unreal.application.getRecentlyOpenedFiles()
         self.houdini_recent_projects = houdini.application.getRecentlyOpenedFiles()
-        self.blender_recent_projects = blender.application.getRecentlyOpenedFiles()
+        self.blender_recent_projects = blender.utils.application.getRecentlyOpenedFiles()
 
     def build_ui(self, parent):
         # Add Unreal Menu
@@ -112,13 +113,13 @@ class TrayLauncher(QtWidgets.QSystemTrayIcon):
             cur_action = self.blender_project_menu.addAction(project)
             cur_action.triggered.connect(
                     lambda checked, 
-                    item=cur_action: blender.application.launchWithProject(item.text())
+                    item=cur_action: blender.utils.application.launchWithProject(item.text())
                     )
         
     def make_connections(self):
         self.launch_unreal_action.triggered.connect(lambda: unreal.application.launchWithProject(''))
         self.launch_houdini_action.triggered.connect(lambda: houdini.application.launchWithProject(''))
-        self.launch_blender_action.triggered.connect(lambda: blender.application.launchWithProject(''))
+        self.launch_blender_action.triggered.connect(lambda: blender.utils.application.launchWithProject(''))
         self.launch_schmod_command_server_action.triggered.connect(self.temp_launch_command_server)
         self.launch_vscode_action.triggered.connect(self.temp_launch_vs_code)
         self.launch_powershell_action.triggered.connect(self.temp_launch_powershell)

@@ -40,6 +40,7 @@ def getRecentlyOpenedFiles(skip_valid_dir_check=False):
     return split_line_history if skip_valid_dir_check else valid_directories
 
 def launchWithProject(project_path):
+    input_path = '"{0}"'.format(project_path)
     ps_script = os.getenv("POWERSHELL_SCRIPTS") + r'\LaunchBlender.ps1'
-    cmd = ["powershell.exe", ps_script, project_path]
+    cmd = ["powershell.exe", ps_script, input_path]
     subprocess.Popen(cmd)

@@ -1,6 +1,6 @@
 param (
-    [string][ValidateNotNullOrEmpty()][ValidateNotNull()]$projectPath,
-    [string][ValidateNotNullOrEmpty()][ValidateNotNull()]$pythonScript
+    [string]$projectPath,
+    [string]$pythonScript
 )
 
 . "$PSScriptRoot\SchmodVars.ps1"
@@ -11,6 +11,9 @@ if (($null -eq $projectPath) -or ($projectPath -eq ''))
 }
 else
 {
-    Start-Process -FilePath 'blender.exe' -WorkingDirectory $env:BLENDER_BIN -ArgumentList $projectPath
+    $pathQuote = '"' + $projectPath + '"'
+    
+    Write-Host ("Project Path: " + $pathQuote)
+    Start-Process -FilePath 'blender.exe' -WorkingDirectory $env:BLENDER_BIN -ArgumentList $pathQuote
 }
 

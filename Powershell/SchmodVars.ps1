@@ -22,6 +22,7 @@ $env:POWERSHELL_SCRIPTS = Join-Path -Path $env:TOOLS_ROOT -ChildPath 'Powershell
 
 # Setup Houdini Env Vars
 $env:HOUDINI_VERSION = (SearchForFirstChildDirectory 'C:\Program Files\Side Effects Software' 'Houdini' $true).Split(' ')[1]
+# TODO: Find this as opposed to abs
 $env:HOUDINI_BIN = 'C:\Program Files\Side Effects Software' + "\Houdini $env:HOUDINI_VERSION\bin"
 $env:HOUDINI_EXE = Join-Path -Path $env:HOUDINI_BIN -ChildPath 'houdinifx.exe'
 $env:HOUDINI_OTLSCAN_PATH = 'D:\Dev\Media\_Library\HDA;&'
@@ -29,9 +30,10 @@ $env:HOUDINI_PATH = "$HOUDINI_PY_SCRIPTS;&"
 
 # Setup Blender Env Vars
 $env:BLENDER_VERSION = (SearchForFirstChildDirectory 'C:\Program Files\Blender Foundation' 'Blender' $true).Split(' ')[1]
+# TODO: Find this as opposed to abs
 $env:BLENDER_BIN = 'C:\Program Files\Blender Foundation' + "\Blender $env:BLENDER_VERSION"
 $env:BLENDER_EXE = Join-Path -Path $env:BLENDER_BIN -ChildPath 'blender.exe'
-#$env:BLENDER_USER_SCRIPTS = Join-Path -Path $BLENDER_PY_SCRIPTS -ChildPath 'blender'
+$env:BLENDER_KEYMAPS_PATH = Join-Path -Path $BLENDER_PY_SCRIPTS -ChildPath '\blender\presets\keyconfig'
 
 # Setup Pico-8 Env Vars
 # TODO: Find this as opposed to abs
