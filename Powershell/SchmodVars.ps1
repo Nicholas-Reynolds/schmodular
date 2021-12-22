@@ -8,6 +8,8 @@ if ($env:DEV_ROOT -eq '') { Exit }
 $env:TOOLS_ROOT = Join-Path -Path $env:DEV_ROOT -ChildPath 'Tools'
 # Get External Root
 $env:EXTERNAL_ROOT = Join-Path -Path $env:DEV_ROOT -ChildPath 'External'
+# Get Temp Root
+$env:TEMP_ROOT = Join-Path -Path $env:DEV_ROOT -ChildPath 'Temp'
 
 # Setup Python Env Vars
 $env:PYTHON_ROOT = Join-Path -Path $env:EXTERNAL_ROOT -ChildPath 'Python310'
