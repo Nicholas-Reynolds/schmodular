@@ -24,8 +24,8 @@ class BlenderRig(BaseRig):
     def resolve_armature_name(self):
         return self.resolve_rig_name() + config.TYPE_TO_SUFFIX[config.BlenderType.ARMATURE]
 
-    def add_bone(self, boneName, primary_side, position, rotation):
-        new_bone = BlenderBone(self, boneName, primary_side, position, rotation)
+    def add_bone(self, boneName, primary_side, position, rotation, scale=None, parent='', parentSnap=False, secondary_side=None, secondary_position=(0.0,0.0,0.0)):
+        new_bone = BlenderBone(self, boneName, primary_side, position, rotation, parent=parent, parentSnap=parentSnap, secondary_position=secondary_position)
         self.bones[new_bone] = new_bone.resolve_object_name()
 
         return new_bone
@@ -65,10 +65,12 @@ class BlenderRig(BaseRig):
         return bpy.data.armatures[self.resolve_armature_name()]
 
 class BlenderBone(RigObject):
-    def __init__(self, rig, name, primary_side, position, rotation, scale=None, parent='', secondary_side=None, tail_position=(0.0,0.0,0.0)):
-        super().__init__(rig, name, RigObjectType.Bone, primary_side, position, rotation, scale=scale, parent=parent, secondary_side=secondary_side)
+    def __init__(self, rig, name, primary_side, position, rotation, scale=None, parent=None, parentSnap=False, secondary_side=None, secondary_position=(0.0,0.0,0.0)):
+        super().__init__(rig, name, RigObjectType.Bone, primary_side, position, rotation, scale=scale, parent=parent, secondary_side=secondary_side, secondary_position=secondary_position)
 
-        self.tail_position = tail_position
+        self.parent = None
+        if parent:
+            self._set_parent(parent, parentSnap=parentSnap)
 
     # Abstract Methods
     def _create_target(self):
@@ -78,21 +80,25 @@ class BlenderBone(RigObject):
         # Create single bone
         bone = self.rig.armature.edit_bones.new(self.resolve_object_name())
         bone.head = self.position
+        bone.tail = self.secondary_position
         
-        #bone.tail = self.tail_position
-
         # Return to Object Mode
         bpy.ops.object.mode_set(mode='OBJECT')
 
         return bone
     
-    def _set_parent(self, parent):
+    def _set_parent(self, parent, parentSnap=False):
         # set to Edit for bone add
         bpy.ops.object.mode_set(mode='EDIT')
 
-        # set parent
+        # set internal parent
         self.parent = parent
-        self.target.parent = self.rig.edit_bones[parent]
 
-        # seturn to Object Mode
+        # set parent
+        parent_bone = self.rig.armature.edit_bones[parent.resolve_object_name()]
+        bone = self.rig.armature.edit_bones[self.resolve_object_name()]
+        bone.parent = parent_bone
+        bone.use_connect = parentSnap
+
+        # set to Edit for bone add
         bpy.ops.object.mode_set(mode='OBJECT')

@@ -48,7 +48,7 @@ SIDE_TO_SUFFIX = {
 
 class RigObject(ABC):
     """Placeholder"""
-    def __init__(self, rig, name, object_type, primary_side, position, rotation, scale=None, parent='', secondary_side=None):
+    def __init__(self, rig, name, object_type, primary_side, position, rotation, scale=None, parent='', secondary_side=None, secondary_position=None):
         self.rig = rig
         self.name = name
         self.object_type = object_type
@@ -58,6 +58,7 @@ class RigObject(ABC):
         self.scale = scale
         self.parent = parent
         self.secondary_side = secondary_side
+        self.secondary_position = secondary_position
 
         # Generate target rig object for reference
         self.target = self._create_target()
@@ -124,17 +125,30 @@ class BaseRig(ABC):
 
         return rig_name
 
-class BoneChainTemplate():
-    def __init__(self):
-        self.bones = None
+class BoneChainTemplate(ABC):
+    def __init__(self, rig_side):
+        self.rig_side = rig_side
+        self.rig_section = None
+        self.bones = []
+        
+        self._create_bone_chain()
+
+    def _create_bone_chain(self):
+        raise NotImplementedError()
 
     def get_chain_head(self):
-        pass
+        return self.bones[0]
 
     def get_chain_tail(self):
-        pass
+        return self.bones[-1]
 
-class HumanoidArmChainTemplate():
+class HumanoidArmChainTemplate(BoneChainTemplate):
+    #assuming x>right,y>up,z>forward
+    default_shldr_pos = ()
+    default_elbow_pos = ()
+    default_wrist_pos = ()
+
+class HumanoidHandChainTemplate():
     pass
 
 class HumanoidLegChainTemplate():

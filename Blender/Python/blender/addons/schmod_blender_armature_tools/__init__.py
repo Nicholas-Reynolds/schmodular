@@ -59,8 +59,11 @@ class SCHMOD_OT_Test(bpy.types.Operator):
         print ('Armature Name: {0}'.format(rig.resolve_armature_name()))
 
         # add bone test
-        bone_a = rig.add_bone('Test_Bone_A', RigSide.Left, (-10.0,0.0,0.0), None)
-        bone_b = rig.add_bone('Test_Bone_B', RigSide.Right, (10.0,0.0,0.0), None)
+        bone_a = rig.add_bone('Test_Bone_A', RigSide.Left, (-10.0,0.0,0.0), None, secondary_position=(-10,0.0,5.0))
+        bone_b = rig.add_bone('Test_Bone_B', RigSide.Right, (10.0,0.0,0.0), None, secondary_position=(10.0,0.0,5.0))
+
+        # parent bone test
+        bone_b._set_parent(bone_a, parentSnap=True)
 
         # print test
         print ('Bone Test A: {0}'.format(rig.bones[bone_a]))
